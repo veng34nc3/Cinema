@@ -1,3 +1,63 @@
+<?php 
+session_start();
+if(isset($_SESSION["log_email"]))
+{
+   
+$servername = "localhost";
+$username = "root";
+$password = "";
+
+$message = "";
+
+if(isset($_SESSION["log_email"]))
+{
+    $log_email=$_SESSION["log_email"];
+}
+if(isset($_SESSION["log_password"]))
+{
+    $log_password=$_SESSION["log_password"];
+}
+if(isset($_SESSION["log_password"]))
+{
+    $log_encpassword=md5($log_password);
+}
+$conn = new mysqli($servername, $username, $password);
+
+
+
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+//echo "Connected successfully to database";
+
+$sql="SELECT NULL FROM user_database.baza_danych WHERE Email='$log_email' AND Password='$log_encpassword';";
+
+
+if ($result = mysqli_query($conn, $sql)) {
+  // Fetch one and one row
+  if($row = $result -> fetch_row()) {
+    echo "<script>alert('You have logged in successfully')</script>";
+    echo "<script>
+    function waitAndHide()
+    {
+    document.getElementById('login_button_nav').className+=' '+'hide';
+    }
+    setTimeout(waitAndHide, 2000);
+    </script>";
+  }
+  else
+  {
+     echo "<script>alert('Wrong password or email')</script>";
+      session_unset();
+  }
+
+  $result-> free_result();
+
+}
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,7 +76,7 @@
             <a href="#">Repertoire</a>
             <a href="#">Price List</a>
             <a href="#">Contact</a>
-            <button class="btnLogin-popup">Login</button>
+            <button class="btnLogin-popup" id="login_button_nav">Login</button>
         </nav>
     </header>
 
@@ -25,6 +85,7 @@
 
         <div class="form-box login">
             <h2>Login</h2>
+            
             <form action="login.php" method="post">
                 <div class="input-box">
                     <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
