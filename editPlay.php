@@ -11,9 +11,9 @@ if(isset($_POST["HoureditInput"]))
 {
     $HoureditInput = $_POST['HoureditInput'];
 };
-if(isset($_POST["FilmEditSelect"]))
+if(isset($_POST["FilmEditSelect2"]))
 {
-    $FilmEditSelect = $_POST['FilmEditSelect'];
+    $FilmEditSelect2 = $_POST['FilmEditSelect2'];
 };
 if(isset($_POST["AudienceEditSelect"]))
 {
@@ -32,7 +32,7 @@ echo "Connected successfully";
 $sql = "UPDATE user_database.seanse 
 SET 
 seanse.godzina = '$HoureditInput', 
-seanse.id_filmu = (SELECT id FROM user_database.filmy WHERE nazwa = '$FilmEditSelect'),
+seanse.id_filmu = (SELECT id FROM user_database.filmy WHERE nazwa = '$FilmEditSelect2'),
 seanse.id_sali = (SELECT id FROM user_database.sale WHERE numer = '$AudienceEditSelect')
 where seanse.id = '$PlayId' ";
 

@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
     // Przechwycenie przycisku ADD  
     const addButtonFilm = document.getElementById('Film_add');
     const addButtonSeans = document.getElementById('Play_add');
@@ -9,12 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const editButtonPlay = document.getElementById('Play_edit');
     const editButtonAudience = document.getElementById('Audience_edit');
 
-
     // Przechwycenie modala
     const modalAddFilm = document.getElementById('myModalAddFilm');
     const modalAddPlay = document.getElementById('myModalAddPlay');
     const modalAddAudience = document.getElementById('myModalAddAudience');
-
 
     const modalEditFilm = document.getElementById('myModalEditFilm');
     const modalEditPlay = document.getElementById('myModalEditPlay');
@@ -28,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeButtonEF = document.querySelector('.closeEF');
     const closeButtonEP = document.querySelector('.closeEP');
     const closeButtonEA = document.querySelector('.closeEA');
-
 
     // Pokazanie modala po kliknieciu przycisku ADD
     addButtonFilm.addEventListener('click', function() {
@@ -47,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modalEditFilm.style.display = 'none';
         modalEditAudience.style.display = 'none';
         modalEditPlay.style.display = 'none';
-        
     });
 
     addButtonAudience.addEventListener('click', function() {
@@ -57,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
         modalEditFilm.style.display = 'none';
         modalEditAudience.style.display = 'none';
         modalEditPlay.style.display = 'none';
-        
     });
 
     if (editButtonFilm) {
@@ -79,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
             modalAddFilm.style.display = 'none';
             modalEditFilm.style.display = 'none';
             modalEditAudience.style.display = 'none';
-            
         });
     }
 
@@ -93,7 +86,6 @@ document.addEventListener('DOMContentLoaded', function() {
             modalEditPlay.style.display = 'none';
         });
     }
-
 
     // Ukrycie modala po kliknieciu na przycisk zamykania
     closeButtonAF.addEventListener('click', function() {
@@ -110,17 +102,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     closeButtonEF.addEventListener('click', function() {
         modalEditFilm.style.display = 'none';
+        document.getElementById('PlayId').disabled = true;
+        document.getElementById('HoureditInput').disabled = true;
+        document.getElementById('FilmEditSelect2').disabled = true;
+        document.getElementById('AudienceEditSelect').disabled = true;
+        document.getElementById('FilmEditName').disabled = true;
+        document.getElementById('FilmEditLength').disabled = true;
+        document.getElementById('FilmEditCategory').disabled = true;
     });
 
     closeButtonEP.addEventListener('click', function() {
         modalEditPlay.style.display = 'none';
+        document.getElementById('PlayId').disabled = true;
+        document.getElementById('HoureditInput').disabled = true;
+        document.getElementById('FilmEditSelect2').disabled = true;
+        document.getElementById('AudienceEditSelect').disabled = true;
+        document.getElementById('FilmEditName').disabled = true;
+        document.getElementById('FilmEditLength').disabled = true;
+        document.getElementById('FilmEditCategory').disabled = true;
     });
 
-    
     closeButtonEA.addEventListener('click', function() {
         modalEditAudience.style.display = 'none';
     });
-        
 
     // Ukrycie modala po kliknieciu poza modalem
     window.addEventListener('click', function(event) {
@@ -135,34 +139,83 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (event.target === modalEditFilm) {
             modalEditFilm.style.display = 'none';
+            document.getElementById('PlayId').disabled = true;
+            document.getElementById('HoureditInput').disabled = true;
+            document.getElementById('FilmEditSelect2').disabled = true;
+            document.getElementById('AudienceEditSelect').disabled = true;
+            document.getElementById('FilmEditName').disabled = true;
+            document.getElementById('FilmEditLength').disabled = true;
+            document.getElementById('FilmEditCategory').disabled = true;
         }
         if (event.target === modalEditPlay) {
             modalEditPlay.style.display = 'none';
+            document.getElementById('PlayId').disabled = true;
+            document.getElementById('HoureditInput').disabled = true;
+            document.getElementById('FilmEditSelect2').disabled = true;
+            document.getElementById('AudienceEditSelect').disabled = true;
+            document.getElementById('FilmEditName').disabled = true;
+            document.getElementById('FilmEditLength').disabled = true;
+            document.getElementById('FilmEditCategory').disabled = true;
         }
         if (event.target === modalEditAudience) {
             modalEditAudience.style.display = 'none';
         }
-
     });
 
-    
+    // Obsługa przycisku "Prześlij"
+    document.getElementById('submitButton').addEventListener('click', function(event) {
+        event.preventDefault(); // Zapobieganie domyślnej akcji przeglądarki
+        document.getElementById('HoureditInput').disabled = false;
+        document.getElementById('FilmEditSelect2').disabled = false;
+        document.getElementById('AudienceEditSelect').disabled = false;
 
+        const str = document.getElementById("FilmEditSelect").value;
+        const words = str.split(' ');
+        const title = str.split("numer: " + words[1] + " godzina: " + words[3] + " numer sali: " + words[6] + " nazwa filmu: ");
+        const result = title.slice(1,100);
 
-    // Obsluga zdarzenia submit formularza
-    const addForm = document.getElementById('addForm');
-    addForm.addEventListener('submit', function(event) {
-        event.preventDefault(); // Zapobieganie domyslnej akcji przegladarki
+        document.getElementById('PlayId').value = words[1];
+        document.getElementById('HoureditInput').value = words[3];
+        document.getElementById('FilmEditSelect2').value = result;
+        document.getElementById('AudienceEditSelect').value = words[6];
+    });
+
+    function parseText(text) {
+        // Regular expression to match the format
+        const regex = /Title:\s*(.*?)\s*Length:\s*(\d+)\s*min\s*Cathegory:\s*(.*)/;
+        const match = text.match(regex);
+
+        if (match) {
+            const title = match[1];
+            const length = parseInt(match[2]);
+            const category = match[3];
+
+            return { title, length, category };
+        } else {
+            return null;
+        }
+    }
+
+    document.getElementById('submitButton2').addEventListener('click', function(event) {
+        event.preventDefault(); // Zapobieganie domyślnej akcji przeglądarki
+        document.getElementById('FilmEditName').disabled = false;
+        document.getElementById('FilmEditLength').disabled = false;
+        document.getElementById('FilmEditCategory').disabled = false;
+
+        const str = document.getElementById("FilmEditInput").value;
+        const parsed = parseText(str);
+        
+        if (parsed) {
+            const title = parsed.title;
+            const length = parsed.length;
+            const category = parsed.category;
+            document.getElementById('FilmEditName').value = title;
+            document.getElementById('FilmEditLength').value = length;
+            document.getElementById('FilmEditCategory').value = category;
+        }
 
         
-    
-
-        //TD Pobranie tekstu z pola tekstowego
-        //const textInput = document.getElementById('textInput').value;
-
-        //TD zrobic wrzucanie do bazy danych dla kazdego
-        //console.log('Tekst do dodania:', textInput);
-
-        // Ukrycie modala po kliknieciu submit
-        Submit.style.display = 'none';
     });
 });
+
+

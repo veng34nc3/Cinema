@@ -8,107 +8,90 @@
     width: 100%;
     height: 100%;
     overflow: auto; 
-    background-color: rgba(0, 0, 0, 0.4); 
+    background-color: rgba(0, 0, 0, 0.5); 
+    backdrop-filter: blur(5px); 
 }
 
 /* Styl dla zawartosci modala */
 .modal-content {
     background-color: #ffffff;
-    margin: 15% auto; 
+    margin: 10% auto; 
     padding: 20px;
-    border: 1px solid #888;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
     width: 50%;
+    max-width: 600px; 
+    animation: modalopen 0.5s; 
 }
 
-/* zamkniecie dla dodawania filmu */
-.closeAF {
+/* styl dla zamkniecia modala */
+.closeAF, .closeAP, .closeAA, .closeEF, .closeEP, .closeEA {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
-}
-
-.closeAF:hover,
-.closeAF:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-/* zamkniecie dla dodawania seansu */
-
-.closeAP {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.closeAP:hover,
-.closeAP:focus {
-    color: black;
-    text-decoration: none;
+    text-align: center; /* Centruje tekst w przycisku */
+    width: 32px;
+    height: 32px;
+    line-height: 28px;
+    border-radius: 50%;
+    background-color: #f1f1f1;
     cursor: pointer;
 }
 
-/* zamkniecie dla dodawania sceny */
-
-.closeAA {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.closeAA:hover,
-.closeAA:focus {
+.closeAF:hover, .closeAF:focus, .closeAP:hover, .closeAP:focus, .closeAA:hover, .closeAA:focus, .closeEF:hover, .closeEF:focus, .closeEP:hover, .closeEP:focus, .closeEA:hover, .closeEA:focus {
     color: black;
+    background-color: #ccc;
     text-decoration: none;
-    cursor: pointer;
 }
 
-
-
-/* Zamkniecie dla edycji filmu */
-.closeEF {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+/* Styl dla przyciskow formularza */
+button[type="submit"] {
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background-color 0.3s ease; 
 }
 
-.closeEF:hover,
-.closeEF:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+button[type="submit"]:hover {
+    background-color: #45a049;
 }
 
-/* Zamkniecie dla edycji gry */
-.closeEP {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+/* Styl dla pol formularza */
+input[type="text"], input[type="number"], input[type="time"], select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
-.closeEP:hover,
-.closeEP:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+/* Dodanie animacji przy otwieraniu modala */
+@keyframes modalopen {
+    from { opacity: 0 }
+    to { opacity: 1 }
 }
 
-/* Zamkniecie dla edycji sceny */
-.closeEA {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+/* Styl dla przyciskow "Przeslij" */
+input[type="button"]#submitButton2, input[type="button"]#submitButton {
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background-color 0.3s ease; 
 }
 
-.closeEA:hover,
-.closeEA:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+/* Efekt hover dla przyciskow "Przeslij" */
+input[type="button"]#submitButton2:hover, input[type="button"]#submitButton:hover {
+    background-color: #45a049; 
 }

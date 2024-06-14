@@ -84,7 +84,7 @@
                 ?>
             </select>
             <br>
-            <label for="AudienceSelect">Numer Sali:</label>
+            <label for="AudienceSelect">Audience number:</label>
             <select id="AudienceSelect" name="AudienceSelect">
                 <?php
                     $servername = "localhost";
@@ -136,11 +136,44 @@
             <label for="FilmEditInput">Film:</label>
             <select id="FilmEditInput" name="FilmEditInput">
                 <?php
+                session_start();
                     $servername = "localhost";
                     $username = "root";
                     $password = "";
                     
-                    $sql = "select nazwa from user_database.filmy;";
+                    $sql = "SELECT id,
+                    CONCAT( 'Title: ', filmy.nazwa ,' Length: ', filmy.dlugosc, 'min' , ' Cathegory: ', filmy.kategoria) AS combined_columns
+                    from user_database.filmy";
+                    $conn = new mysqli($servername, $username, $password);
+
+                    // Check connection
+                    if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                    }
+
+                    if ($result = mysqli_query($conn, $sql)) {
+                        echo "";
+                        // Fetch one and one row
+                        while($row = $result -> fetch_row()) { 
+                            $selected = ($row[0] == $selectedValue) ? 'selected' : '';
+                            echo "<option>".$row[1]."</option>";
+                          
+                          
+                        }}
+                        
+                ?>
+            </select>
+            <br>
+            <input type="button" id="submitButton2" value="Prześlij">
+            <br>
+            <label for="FilmEditName">Title:</label>
+            <select id="FilmEditName" name="FilmEditName" disabled>
+            <?php
+                    $servername = "localhost";
+                    $username = "root";
+                    $password = "";
+                    
+                    $sql = "select nazwa from user_database.filmy";
                     $conn = new mysqli($servername, $username, $password);
 
                     // Check connection
@@ -156,13 +189,13 @@
                           
                         }}
                 ?>
-            </select>
-            <br>
+            </select>        
+            <br>   
             <label for="FilmEditLength">Length:</label>
-            <input type="number" id="FilmEditLength" name="FilmEditLength">           
+            <input type="number" id="FilmEditLength" name="FilmEditLength" disabled>           
             <br>
             <label for="FilmEditCategory">Category:</label>
-            <input type="text" id="FilmEditCategory" name="FilmEditCategory"> 
+            <input type="text" id="FilmEditCategory" name="FilmEditCategory" disabled> 
             <br>
             <button type="submit" id ="Submit">Confirm</button>
         </form>
@@ -174,7 +207,7 @@
     <div class="modal-content">
     <form action="editPlay.php" method="post">
         <span class="closeEP">&times;</span>
-        <form id="addForm">
+        <form id="addForm" method="GET" action="AAA">
             <label for="FilmEditSelect">Values:</label>
             <select id="FilmEditSelect" name = "FilmEditSelect">
                 <?php
@@ -182,15 +215,15 @@
                     $username = "root";
                     $password = "";
                     
-                    $sql = "SELECT 
-                CONCAT('id: ', seanse.id, ', godzina: ', seanse.godzina, ', numer sali: ', sale.numer, ', nazwa filmu: ', filmy.nazwa) AS combined_columns
+                    $sql = "SELECT seanse.id,
+                CONCAT( 'numer: ', seanse.id ,' godzina: ', seanse.godzina, ' numer sali: ', sale.numer, ' nazwa filmu: ', filmy.nazwa) AS combined_columns
                 FROM 
                 user_database.seanse 
                 INNER JOIN 
                 user_database.filmy ON seanse.id_filmu = filmy.id 
                 INNER JOIN 
                 user_database.sale ON seanse.id_sali = sale.id
-                order by filmy.nazwa, seanse.godzina";
+                order by seanse.id";
                     $conn = new mysqli($servername, $username, $password);
 
                     // Check connection
@@ -200,43 +233,27 @@
 
                     if ($result = mysqli_query($conn, $sql)) {
                         // Fetch one and one row
+                        $selectedValue = 0;
                         while($row = $result -> fetch_row()) { 
-                          echo "<option>".$row[0]."</option>";
+                            $selected = ($row[0] == $selectedValue) ? 'selected' : '';
+                            echo "<option>".$row[1]."</option>";
+                          
                           
                         }}
                 ?>
             </select>
-            <br>
-            <label for="PlayId">id:</label>
-            <select id="PlayId" name = "PlayId" >
-                <?php
-                    $servername = "localhost";
-                    $username = "root";
-                    $password = "";
-                    
-                    $sql = "select id from user_database.seanse order by 1;";
-                    $conn = new mysqli($servername, $username, $password);
-
-                    // Check connection
-                    if ($conn->connect_error) {
-                    die("Connection failed: " . $conn->connect_error);
-                    }
-                    if ($result = mysqli_query($conn, $sql)) {
-                        echo "<option></option>";
-
-                        // Fetch one and one row
-                        while($row = $result -> fetch_row()) { 
-                          echo "<option>".$row[0]."</option>";
-                          
-                        }}
-                ?>
-            </select>
+            <input type="button" id="submitButton" value="Prześlij">
+        </form>
+            
+            <form action="editPlay.php" method="post" id="editForm">
+            <label for="PlayId">Number:</label>
+            <input type="number" id="PlayId" name = "PlayId" disabled>
             <br>
             <label for="HoureditInput">Hour:</label>
-            <input type="time" id="HoureditInput" name="HoureditInput">
+            <input type="time" id="HoureditInput" name="HoureditInput" disabled>
             <br>
-            <label for="FilmEditSelect">Nazwa Filmu:</label>
-            <select id="FilmEditSelect" name = "FilmEditSelect">
+            <label for="FilmEditSelect2">Film title:</label>
+            <select id="FilmEditSelect2" name = "FilmEditSelect2" disabled>
                 <?php
                     $servername = "localhost";
                     $username = "root";
@@ -260,8 +277,8 @@
                 ?>
             </select>
             <br>
-            <label for="AudienceEditSelect">Numer Sali:</label>
-            <select id="AudienceEditSelect" name="AudienceEditSelect">
+            <label for="AudienceEditSelect">Audience number:</label>
+            <select id="AudienceEditSelect" name="AudienceEditSelect" disabled>
                 <?php
                     $servername = "localhost";
                     $username = "root";
